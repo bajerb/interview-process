@@ -231,6 +231,11 @@ public class Hello implements EntryPoint {
 		});
 	    
 	}
+		private void onClearPersonClick() {
+		personId.setText("");
+		personName.setText("");
+		
+	}
 	
 	
 	private void onGetPersonClick(){
