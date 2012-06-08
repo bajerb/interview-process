@@ -49,9 +49,9 @@ public class Hello implements EntryPoint {
     VerticalPanel dialogVPanel = new VerticalPanel();
     
     Integer numberOfCompletedCall = new Integer(0);
-    final Label countCallLabel = new Label();
+    final Label countCallLabel = new Label("Number of calls: ");
     final Button countCallButton = new Button("Count Calls");
-	
+private int count=0;
     
     /*
      * UI for database calls
@@ -199,7 +199,7 @@ public class Hello implements EntryPoint {
         personPanel.setWidget(layout);
 
         setupPersonSection();
-        
+        setupCountingCalls();
         RootPanel.get("personContainer").add(personPanel);
 		
 		RootPanel.get("nameFieldContainer").add(nameField);
@@ -209,6 +209,38 @@ public class Hello implements EntryPoint {
         RootPanel.get("errorLabelContainer").add(errorLabel);
 	}
 	
+	
+		/**
+	 * Section to implement call counting
+	 */
+	public void setupCountingCalls(){
+	    
+	    countCallButton.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+            			onGetUpdateCountCallLabel();
+            }
+        });
+
+	    
+	}
+		protected void onGetUpdateCountCallLabel() {
+
+	    // Set up the callback object.
+	    AsyncCallback<Integer> callback = new AsyncCallback<Integer>() {
+	      public void onFailure(Throwable caught) {
+	        // TODO: Do something with errors.
+	      }
+
+	      public void onSuccess(Integer result) {
+	    	  count =result;
+	    		countCallLabel.setText("Number of calls: "+count);
+	      }
+	    };
+	    countCallService.countCall(count, callback);
+	
+		
+	}
 	
 	/**
 	 * Section to implement for person database calls
